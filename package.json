@@ -14,5 +14,12 @@
     "url": "https://github.com/gabe-1byte/myFlix-client/issues"
   },
   "homepage": "https://github.com/gabe-1byte/myFlix-client#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.14.2"
+  }
 }
