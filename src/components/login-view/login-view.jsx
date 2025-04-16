@@ -21,20 +21,10 @@ export const LoginView = ({ onLoggedIn }) => {
             },
             body: JSON.stringify(data)
         })
-            .then(async (response) => {
-                console.log("Response status:", response.status); // Log the response status
-                const responseData = await response.json().catch(() => null); // Handle invalid JSON
-                console.log("Response body:", responseData); // Log the response body
-                if (!response.ok) {
-                    throw new Error(responseData?.message || "Login failed");
-                }
-                return responseData;
-            })
+            .then((response) => response.json())
             .then((data) => {
                 console.log("Login response:", data); // Log the successful response
                 if (data.user) {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    localStorage.setItem("token", data.token);
                     onLoggedIn(data.user, data.token);
                 } else {
                     alert("No such user");
