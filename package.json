@@ -16,8 +16,10 @@
   "homepage": "https://github.com/gabe-1byte/myFlix-client#readme",
   "description": "",
   "dependencies": {
+    "bootstrap": "^5.2.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
