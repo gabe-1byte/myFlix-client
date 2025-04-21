@@ -16429,7 +16429,7 @@ $RefreshReg$(_c, "MainView");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../movie-card/movie-card":"6BY1s","../movie-view/movie-view":"dkfGy","@parcel/transformer-js/src/esmodule-helpers.js":"kv8p9","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"1dGfi","../login-view/login-view":"8ru9P","../signup-view/signup-view":"nAl3Z"}],"6BY1s":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../movie-card/movie-card":"6BY1s","../movie-view/movie-view":"dkfGy","@parcel/transformer-js/src/esmodule-helpers.js":"kv8p9","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"1dGfi","../login-view/login-view":"8ru9P","../signup-view/signup-view":"nAl3Z","react-bootstrap/Row":"2DPD4","react-bootstrap/Col":"6x0qd"}],"6BY1s":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$f387 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$f387.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -21251,6 +21251,39 @@ as: Component = 'div', className, ...props }, ref)=>{
 Container.displayName = 'Container';
 Container.defaultProps = defaultProps;
 exports.default = Container;
+
+},{"classnames":"Egwmr","react":"jMk1U","./ThemeProvider":"gulxC","react/jsx-runtime":"05iiF","@parcel/transformer-js/src/esmodule-helpers.js":"kv8p9"}],"2DPD4":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+const Row = /*#__PURE__*/ _react.forwardRef(({ bsPrefix, className, // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+as: Component = 'div', ...props }, ref)=>{
+    const decoratedBsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, 'row');
+    const breakpoints = (0, _themeProvider.useBootstrapBreakpoints)();
+    const minBreakpoint = (0, _themeProvider.useBootstrapMinBreakpoint)();
+    const sizePrefix = `${decoratedBsPrefix}-cols`;
+    const classes = [];
+    breakpoints.forEach((brkPoint)=>{
+        const propValue = props[brkPoint];
+        delete props[brkPoint];
+        let cols;
+        if (propValue != null && typeof propValue === 'object') ({ cols } = propValue);
+        else cols = propValue;
+        const infix = brkPoint !== minBreakpoint ? `-${brkPoint}` : '';
+        if (cols != null) classes.push(`${sizePrefix}${infix}-${cols}`);
+    });
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(Component, {
+        ref: ref,
+        ...props,
+        className: (0, _classnamesDefault.default)(className, decoratedBsPrefix, ...classes)
+    });
+});
+Row.displayName = 'Row';
+exports.default = Row;
 
 },{"classnames":"Egwmr","react":"jMk1U","./ThemeProvider":"gulxC","react/jsx-runtime":"05iiF","@parcel/transformer-js/src/esmodule-helpers.js":"kv8p9"}],"dkfGy":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$2262 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
