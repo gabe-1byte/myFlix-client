@@ -1,5 +1,12 @@
-$color: steelblue;
+$primary: #666699;
+$body-bg: #f0f0ff;
 
-.my-flix {
-    color: $color;
+.FormFieldNames {
+    font-weight: bold
 }
+
+.SignupText {
+    padding-left: 45%;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';
