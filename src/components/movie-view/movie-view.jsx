@@ -7,7 +7,7 @@ export const MovieView = ({ movie, onBackClick }) => {
                 <p>
                     <strong>Image :</strong>
                 </p>
-                <img src={movie.Image} />
+                <img src={movie.imageURL} />
             </div>
             <div>
                 <p>
@@ -28,7 +28,7 @@ export const MovieView = ({ movie, onBackClick }) => {
                     <strong>Director:</strong> {movie.Director.Name}
                 </p>
             </div>
-            <button 
+            <button
             onClick={onBackClick}
             className="back-button"
             style={{ cursor: "pointer" }}>

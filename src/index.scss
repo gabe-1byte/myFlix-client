@@ -7,6 +7,17 @@ $body-bg: #f0f0ff;
 
 .SignupText {
     padding-left: 45%;
+    font-size: 20px;
+}
+
+.LoginText {
+    padding-left: 45%;
+    font-size: 20px;
+}
+
+.LoginRegisterButtons {
+    margin-top: 10px;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';
+
