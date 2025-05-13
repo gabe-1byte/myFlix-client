@@ -98,6 +98,8 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={5}>
                                         <LoginView onLoggedIn={(user, token) => {
+                                            localStorage.setItem("user", JSON.stringify(user));
+                                            localStorage.setItem("token", token);
                                             setUser(user);
                                             setToken(token);
                                         }} />
