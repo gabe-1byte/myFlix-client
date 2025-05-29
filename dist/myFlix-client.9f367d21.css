@@ -6,6 +6,14 @@
   padding: 4px 12px;
 }
 
+.navbar {
+  background-color: #f0f0ff;
+}
+
+.navbar a {
+  color: #000;
+}
+
 .FormFieldNames {
   font-weight: bold;
 }
