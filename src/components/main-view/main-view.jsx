@@ -94,10 +94,10 @@ export const MainView = () => {
                     <Route
                         path="/login"
                         element={
-                            <>
-                                {user ? (
-                                    <Navigate to="/" />
-                                ) : (
+        <>
+            {user ? (
+                <Navigate to="/" />
+            ) : (
                 <Col md={5}>
                     <LoginView onLoggedIn={(user, token) => {
                         dispatch(setUser(user));
@@ -106,10 +106,9 @@ export const MainView = () => {
                         localStorage.setItem("token", token);
                     }} />
                 </Col>
-                                )}
-                            </>
-
-                        }
+            )}
+        </>
+    }
                     />
                     <Route
                         path="/movies/:movie_Id"
