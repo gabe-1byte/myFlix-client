@@ -4,13 +4,25 @@ import Container from 'react-bootstrap/Container';
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./index.scss";
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import { setUser } from './redux/reducers/user/user';
+
+const savedUser = localStorage.getItem("user");
+const savedToken = localStorage.getItem("token");
+if (savedUser && savedToken) {
+  store.dispatch(setUser(JSON.parse(savedUser)));
+  // If you have a setToken action, dispatch it here as well
+}
 
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => {
   return (
-    <Container>
-      <MainView />
-    </Container>
+    <Provider store={store}>
+      <Container>
+        <MainView />
+      </Container>
+    </Provider>
   );
 };
 

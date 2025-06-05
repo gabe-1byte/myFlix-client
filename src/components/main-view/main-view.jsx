@@ -9,14 +9,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { setMovies } from "../../redux/reducers/movies";
+import { setUser, setFavoriteMovies } from "../../redux/reducers/user/user";
+import { MoviesList } from "../movies-list/movies-list";
+
 export const MainView = () => {
-    const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
-    const [user, setUser] = useState(storedUser? storedUser : null);
     const [token, setToken] = useState(storedToken? storedToken : null);
-    const [movies, setMovies] = useState([]);
-    const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    const movies = useSelector((state) => state.movies.list);
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+    // Remove local favoriteMovies state
+    // const [favoriteMovies, setFavoriteMovies] = useState([]);
     
     useEffect(() => {
         if (!token) return;
@@ -27,9 +32,12 @@ export const MainView = () => {
             .then((response) => response.json())
             .then((moviesFromApi) => {
                 console.log("Movies fetched from API:", moviesFromApi);
-                setMovies(moviesFromApi);
+                dispatch(setMovies(moviesFromApi));
             });
         }, [token]);
+
+    // Use Redux favoriteMovies
+    const favoriteMovies = user?.FavoriteMovies || [];
 
     const handleAddToFavorites = (MovieId) => {
         fetch(`https://movies-flix-project-g1byte-f2fe79db7991.herokuapp.com/users/${user.name}/movies/${MovieId}`, {
@@ -40,9 +48,9 @@ export const MainView = () => {
             },
         })
         .then((response) => response.json())
-        .then(() => {
-            // This will update the user state to include the new favorite movie
-            setFavoriteMovies((prev) => [...prev, MovieId]);
+        .then((data) => {
+            // Update Redux favoriteMovies
+            dispatch(setFavoriteMovies(data.FavoriteMovies));
             alert("Movie has been added to your favorites!");
         })
         .catch((error) => console.error("Error while adding movie to favorites:", error));
@@ -56,9 +64,9 @@ export const MainView = () => {
             },
         })
         .then((response) => response.json())
-        .then(() => {
-            // This will update the user state to remove the favorite movie
-            setFavoriteMovies((prev) => prev.filter((id) => id !== MovieId));
+        .then((data) => {
+            // Update Redux favoriteMovies
+            dispatch(setFavoriteMovies(data.FavoriteMovies));
             alert("Movie has been removed from your favorites!");
         })
         .catch((error) => console.error("Error while removing movie from favorites:", error));
@@ -66,13 +74,7 @@ export const MainView = () => {
 
     return (
         <BrowserRouter>
-            <NavigationBar
-                user={user}
-                onLoggedOut={() => {
-                    setUser(null);
-                    setToken(null);
-                }}
-            />
+            <NavigationBar />
             <Row className="justify-content-md-center">
                 <Routes>
                     <Route
@@ -96,14 +98,14 @@ export const MainView = () => {
                                 {user ? (
                                     <Navigate to="/" />
                                 ) : (
-                                    <Col md={5}>
-                                        <LoginView onLoggedIn={(user, token) => {
-                                            localStorage.setItem("user", JSON.stringify(user));
-                                            localStorage.setItem("token", token);
-                                            setUser(user);
-                                            setToken(token);
-                                        }} />
-                                    </Col>
+                <Col md={5}>
+                    <LoginView onLoggedIn={(user, token) => {
+                        dispatch(setUser(user));
+                        setToken(token);
+                        localStorage.setItem("user", JSON.stringify(user));
+                        localStorage.setItem("token", token);
+                    }} />
+                </Col>
                                 )}
                             </>
 
@@ -119,7 +121,8 @@ export const MainView = () => {
                                 <Col>This list is empty!</Col>
                             ) : (
                                 <Col md={8}>
-                                    <MovieView movies={movies} token={token} />
+
+                                  <MovieView token={token} />
                                 </Col>
                             )}
                         </>
@@ -127,29 +130,20 @@ export const MainView = () => {
                         }
                     />
                     <Route
-                        path="/"
-                        element={
-                            <>
-                                {!user ? (
-                                    <Navigate to="/login" replace />
-                                ) : movies.length === 0 ? (
-                                    <Col>This list is empty!</Col>
-                                ) : (
-                                    <>
-                                    {movies.map((movie) => (
-                                        <Col className="mb-4" key={movie._id} md={3}>
-                                            <MovieCard
-                                                movie={movie}
-                                                isFavorite={favoriteMovies.includes(movie._id)}
-                                                handleAddToFavorites={handleAddToFavorites}
-                                                handleRemoveFromFavorites={handleRemoveFromFavorites}
-                                            />
-                                        </Col>
-                                    ))}
-                                </>
-                                )}
-                            </>
-                        }
+                      path="/"
+                      element={
+                        <>
+                          {!user ? (
+                            <Navigate to="/login" replace />
+                          ) : (
+                            <MoviesList
+                              favoriteMovies={favoriteMovies}
+                              handleAddToFavorites={handleAddToFavorites}
+                              handleRemoveFromFavorites={handleRemoveFromFavorites}
+                            />
+                          )}
+                        </>
+                      }
                     />
                     <Route
                         path="/users/:name"
@@ -162,8 +156,9 @@ export const MainView = () => {
                                         user={user}
                                         token={token}
                                         movies={movies}
+                                        favoriteMovies={favoriteMovies}
                                         updateUser={(updatedUser) => {
-                                            setUser(updatedUser);
+                                            dispatch(setUser(updatedUser));
                                         }}
                                     />
                                 </Col>
