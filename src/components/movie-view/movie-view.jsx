@@ -1,11 +1,15 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
+import { useSelector } from "react-redux";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ token }) => {
     const { movie_Id } = useParams();
+    const movies = useSelector((state) => state.movies.list); // <-- Get movies list from Redux
 
     const movie = movies.find((m) => m._id === movie_Id);
+
+    if (!movie) return <div>Movie not found.</div>;
 
     return (
         <div>
@@ -36,7 +40,6 @@ export const MovieView = ({ movies }) => {
             </div>
             <Link to={`/`}>
             <button className="back-button">Back</button>
-            
             </Link>
         </div>
     );
