@@ -17,6 +17,7 @@
   "description": "",
   "dependencies": {
     "@reduxjs/toolkit": "2.8.2",
+    "@vue/compiler-sfc": "^3.5.16",
     "bootstrap": "^5.2.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
