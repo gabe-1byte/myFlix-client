@@ -17,6 +17,9 @@ is front-end application for the myFlix movie app. It allows users to browse col
 ## Technologies Used
 
 - **React**: Front-end library for building the UI.
-- **Parcel**: Bundler for building andd serving the app.
+- **Redux Toolkit**: State management for user and movie data.
+- **React-Bootstrap**: UI components and styling.
+- **Parcel**: Bundler for building and serving the app.
+- **Netlify**: Hosting and deployment.
 
 ### [Link to Github repository](https://github.com/gabe-1byte/myFlix-client)

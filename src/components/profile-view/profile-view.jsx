@@ -3,35 +3,40 @@ import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
+import { useDispatch } from 'react-redux';
+import { setUser, setFavoriteMovies } from '../../redux/reducers/user/user';
 
-const ProfileView = ({ movies = [], user, token, onLoggededOut }) => {
+const ProfileView = ({ movies = [], user, token, favoriteMovies, onLoggededOut }) => {
     const [userData, setUserData] = useState("");
     const [username, setName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [birthday, setBirthday] = useState("");
-    const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && token) {
-            fetch(`https://movies-flix-project-g1byte-f2fe79db7991.herokuapp.com/users/${user.name}`, {
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` },
+        // Guard: only fetch if user and user.name exist
+        if (!user || !user.name || !token) return;
+
+        fetch(`https://movies-flix-project-g1byte-f2fe79db7991.herokuapp.com/users/${user.name}`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setUserData(data);
+                setName(data.name);
+                setEmail(data.email);
+                setBirthday(data.birthday);
+                // Update Redux user and favoriteMovies
+                dispatch(setUser(data));
+                dispatch(setFavoriteMovies(data.FavoriteMovies || []));
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    setUserData(data);
-                    setName(data.name);
-                    setEmail(data.email);
-                    setBirthday(data.birthday);
-                    setFavoriteMovies(data.FavoriteMovies || []);
-                })
-                .catch((error) => {
-                    console.error("Error fetching user data:", error);
-                });
-        }
-    }, [token, user]);
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+            });
+    }, [token, user, dispatch]);
 
     const handleUpdate = (event) => {
         event.preventDefault();
@@ -90,7 +95,7 @@ const ProfileView = ({ movies = [], user, token, onLoggededOut }) => {
         })
             .then((response) => response.json())
             .then(() => {
-                setFavoriteMovies([...favoriteMovies, MovieId]);
+                dispatch(setFavoriteMovies([...favoriteMovies, MovieId]));
                 alert("Movie added to favorites!");
             })
             .catch((error) => {
@@ -107,7 +112,7 @@ const ProfileView = ({ movies = [], user, token, onLoggededOut }) => {
         })
             .then((response) => response.json())
             .then(() => {
-                setFavoriteMovies(favoriteMovies.filter((id) => id !== MovieId));
+                dispatch(setFavoriteMovies(favoriteMovies.filter((id) => id !== MovieId)));
                 alert("Movie removed from favorites!");
             })
             .catch((error) => {
@@ -115,7 +120,8 @@ const ProfileView = ({ movies = [], user, token, onLoggededOut }) => {
             });
     };
 
-    const favoriteMoviesList = movies.filter((m) => favoriteMovies.includes(m._id));
+    // Use favoriteMovies from Redux
+    const favoriteMoviesList = movies.filter((m) => (favoriteMovies || []).includes(m._id));
 
     return (
         <div className="profile-view">

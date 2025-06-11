@@ -2,10 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/reducers/user/user"; 
 
 export const LoginView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -14,7 +18,7 @@ export const LoginView = ({ onLoggedIn }) => {
             password: password
         };
 
-        console.log("Request payload:", data); // Log the payload
+        console.log("Request payload:", data);
 
         fetch("https://movies-flix-project-g1byte-f2fe79db7991.herokuapp.com/login", {
             method: "POST",
@@ -25,15 +29,20 @@ export const LoginView = ({ onLoggedIn }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Login response:", data); // Log the successful response
-                if (data.user) {
-                    onLoggedIn(data.user, data.token);
+                console.log("Login response:", data);
+                if (data.user && data.token) {
+                    dispatch(setUser(data.user));
+                    localStorage.setItem("user", JSON.stringify(data.user));
+                    localStorage.setItem("token", data.token);
+                    if (onLoggedIn) {
+                        onLoggedIn(data.user, data.token);
+                    }
                 } else {
                     alert("No such user");
                 }
             })
             .catch((e) => {
-                console.error("Error during login:", e); // Log the error
+                console.error("Error during login:", e);
                 alert(e.message || "Something went wrong during login");
             });
     };
@@ -66,4 +75,8 @@ export const LoginView = ({ onLoggedIn }) => {
             </Button>
         </form>
     );
+};
+
+LoginView.defaultProps = {
+    onLoggedIn: null
 };
