@@ -40,7 +40,7 @@ MovieCard.propTypes = {
     movie: PropTypes.shape({
         Title: PropTypes.string.isRequired,
         Description: PropTypes.string.isRequired,
-        Image: PropTypes.string.isRequired,
+        imageURL: PropTypes.string.isRequired,
         Director: PropTypes.shape({
             Name: PropTypes.string.isRequired,
             Bio: PropTypes.string.isRequired,
@@ -50,9 +50,10 @@ MovieCard.propTypes = {
         Genre: PropTypes.shape({
             Name: PropTypes.string.isRequired,
             Description: PropTypes.string.isRequired
-        }),
-        handleAddToFavorites: PropTypes.func.isRequired,
-        handleRemoveFromFavorites: PropTypes.func.isRequired,
-        isFavorite: PropTypes.bool.isRequired
-    })
+        })
+    }).isRequired,
+    handleAddToFavorites: PropTypes.func.isRequired,
+    handleRemoveFromFavorites: PropTypes.func.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    compactCard: PropTypes.bool
 };
