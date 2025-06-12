@@ -22,4 +22,4 @@ is front-end application for the myFlix movie app. It allows users to browse col
 - **Parcel**: Bundler for building and serving the app.
 - **Netlify**: Hosting and deployment.
 
-### [Link to Github repository](https://github.com/gabe-1byte/myFlix-client)
+### [Link to Netlify Page](https://gb-myflix.netlify.app)
