@@ -6,13 +6,12 @@ is front-end application for the myFlix movie app. It allows users to browse col
 
 ## Features
 
-- Browse a list of movies
+- Browse and search a list of movies
 - View detailed information about the selected movie, including:
   - Title
   - Description
   - Genre
   - Director
-    - Director Bio
 
 ## Technologies Used
 
